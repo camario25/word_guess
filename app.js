@@ -31,7 +31,7 @@ $('form').on('submit', function(e) {
     url: wordApi,
     data: {
       difficulty: level,
-      count: 50
+      count: 100
     },
     success: wordsFetched,
     error: wordError
@@ -39,7 +39,14 @@ $('form').on('submit', function(e) {
 });
 
 function wordsFetched (response) {
-  console.log(response);
+  var wordsArr = response.split('\n');
+  console.log(wordsArr);
+  var wordSelect = wordsArr[randomInt(101)];
+  console.log(wordSelect);
+}
+
+function randomInt(max) {
+  return Math.floor(Math.random() * Math.floor(max));
 }
 
 function wordError (error) {
