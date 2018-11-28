@@ -31,7 +31,7 @@ function countDown() {
 
 function appendLines(length) {
   while (length > 0) {
-  $('#guessWord').append(' _  ');
+  $('#guessWord').append('<span> _  </span>');
   length--;
     }
 }
@@ -68,15 +68,17 @@ function wordsFetched (response) {
   $('.btn').on('click', function() {
     var letter = $(this).val().toLowerCase();
     console.log(letter);
+    $(this).prop('disabled', true);
     if (wordSplitArr.includes(letter)) {
-      console.log('yes', letter);
-      $(this).prop('disabled', true);
-      
+      wordSplitArr.forEach(function (el, i) {
+        if (el === letter) {
+          console.log('yes', el);
+          $('#guessWord :nth-child(' + (i+1) + ')').replaceWith('<span>' + el + '</span>');
+        } 
+      })
     } else {
-      $(this).prop('disabled', true);
       countDown();
     }
-    
   })
 }
 
