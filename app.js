@@ -57,15 +57,24 @@ function wordsFetched (response) {
   $('#guessWord').empty();
   $('#counter').empty();
   $('#alphabet').empty();
-  $('#counter').append(6);
+  $('#entireWord').html('<p>You can guess the whole word here:  <input type="text" id="fullWord"><button id="submitFullWord">submit</button>')
   alphabet.forEach(function (el) {
     $('#alphabet').append('<button class="btn" value="' + el + '">' + el + '</button>')
   });
+  $('#counterDiv').html('<p>Incorrect Guesses Remaining:  <span id="counter"></span></p>');
+  $('#counter').append(6);
+  $('#usedLettersDiv').html('<p>Letters already used:  <span id="usedLetter"></span></p>')
   var wordsArr = response.split('\n');
   var wordSelect = wordsArr[randomInt(101)];
   var wordSplitArr = wordSelect.split('');
   console.log(wordSplitArr);
   appendLines(wordSplitArr.length);
+  $('#submitFullWord').on('click', function () {
+    var fullWordValue = $('#fullWord').val();
+    if (fullWordValue = wordSelect){
+      $('#gameResult').html('<h2>You are the winner!</h2>');
+    }
+  });
   $('.btn').on('click', function() {
     var letter = $(this).val().toLowerCase();
     console.log(letter);
@@ -77,7 +86,6 @@ function wordsFetched (response) {
           console.log('yes', el, checkWordArr);
           $('#guessWord :nth-child(' + (i+1) + ')').replaceWith('<span>' + el + '</span>');
           if (checkWordArr.join('') === wordSelect) {
-            console.log('you are the winner!');
             $('#gameResult').html('<h2>You are the winner!</h2>');
           }
         } 
