@@ -13,12 +13,18 @@ var levels = {
 }
 $(document).ready(function() {
   levelDropdown();
+  $('#counter').append(6);
 });
 
 function levelDropdown() {
   for (var level in levels) {
-    $("#level").append('<option value="' + level + '">' + levels[level] + '</option>');
+    $('#level').append('<option value="' + level + '">' + levels[level] + '</option>');
   }
+}
+
+function countDown() {
+  var counter = $('#counter').html();
+  $('#counter').html(--counter);
 }
 
   
