@@ -78,13 +78,15 @@ function wordsFetched (response) {
           $('#guessWord :nth-child(' + (i+1) + ')').replaceWith('<span>' + el + '</span>');
           if (checkWordArr.join('') === wordSelect) {
             console.log('you are the winner!');
+            $('#gameResult').html('<h2>You are the winner!</h2>');
           }
         } 
       })
     } else {
       countDown();
+      $('#usedLetter').append(letter + ', ');
       if ($('#counter').html() === '0') {
-        console.log('you lost, please try again');
+        $('#gameResult').html('<h2>You lost, please try again</h2>');
       }
     }
   })
