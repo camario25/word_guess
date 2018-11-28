@@ -53,6 +53,7 @@ $('form').on('submit', function(e) {
 });
 
 function wordsFetched (response) {
+  var checkWordArr = [];
   $('#guessWord').empty();
   $('#counter').empty();
   $('#alphabet').empty();
@@ -72,12 +73,19 @@ function wordsFetched (response) {
     if (wordSplitArr.includes(letter)) {
       wordSplitArr.forEach(function (el, i) {
         if (el === letter) {
-          console.log('yes', el);
+          checkWordArr[i] = letter;
+          console.log('yes', el, checkWordArr);
           $('#guessWord :nth-child(' + (i+1) + ')').replaceWith('<span>' + el + '</span>');
+          if (checkWordArr.join('') === wordSelect) {
+            console.log('you are the winner!');
+          }
         } 
       })
     } else {
       countDown();
+      if ($('#counter').html() === '0') {
+        console.log('you lost, please try again');
+      }
     }
   })
 }
