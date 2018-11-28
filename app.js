@@ -53,18 +53,31 @@ $('form').on('submit', function(e) {
 });
 
 function wordsFetched (response) {
+  $('#guessWord').empty();
+  $('#counter').empty();
+  $('#alphabet').empty();
   $('#counter').append(6);
   alphabet.forEach(function (el) {
-    console.log(el);
-    $('#alphabet').append('<button>' + el + '</button>')
+    $('#alphabet').append('<button class="btn" value="' + el + '">' + el + '</button>')
   });
   var wordsArr = response.split('\n');
-  console.log(wordsArr);
   var wordSelect = wordsArr[randomInt(101)];
-  console.log(wordSelect);
   var wordSplitArr = wordSelect.split('');
   console.log(wordSplitArr);
   appendLines(wordSplitArr.length);
+  $('.btn').on('click', function() {
+    var letter = $(this).val().toLowerCase();
+    console.log(letter);
+    if (wordSplitArr.includes(letter)) {
+      console.log('yes', letter);
+      $(this).prop('disabled', true);
+      
+    } else {
+      $(this).prop('disabled', true);
+      countDown();
+    }
+    
+  })
 }
 
 function randomInt(max) {
