@@ -71,8 +71,14 @@ function wordsFetched (response) {
   appendLines(wordSplitArr.length);
   $('#submitFullWord').on('click', function () {
     var fullWordValue = $('#fullWord').val();
-    if (fullWordValue = wordSelect){
+    if (fullWordValue === wordSelect){
+      console.log(fullWordValue, wordSelect);
       $('#gameResult').html('<h2>You are the winner!</h2>');
+    } else {
+      countDown();
+      if ($('#counter').html() === '0') {
+        $('#gameResult').html('<h2>You lost, please try again</h2>');
+      }
     }
   });
   $('.btn').on('click', function() {
