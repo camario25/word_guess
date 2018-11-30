@@ -13,9 +13,11 @@ var levels = {
 }
 var alphabet = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y','Z'];
 
+var imageUrls = ["images/loss.png", "images/hair.png", "images/lashes.png", "images/ears.png", "images/nose.png", "images/eyes.png"];
+
 $(document).ready(function() {
   levelDropdown();
-  
+  $('#face').html('<img src="images/head.png" alt="head">');
 });
 
 function levelDropdown() {
@@ -30,6 +32,7 @@ function countDown() {
 }
 
 function appendLines(length) {
+  $('#guessWord').append('Current Word:  ')
   while (length > 0) {
   $('#guessWord').append('<span> _  </span>');
   length--;
@@ -63,7 +66,7 @@ function wordsFetched (response) {
   });
   $('#counterDiv').html('<p>Incorrect Guesses Remaining:  <span id="counter"></span></p>');
   $('#counter').append(6);
-  $('#usedLettersDiv').html('<p>Letters already used:  <span id="usedLetter"></span></p>')
+  $('#usedLettersDiv').html('<p>Incorrect Letters:  <span id="usedLetter"></span></p>');
   var wordsArr = response.split('\n');
   var wordSelect = wordsArr[randomInt(101)];
   var wordSplitArr = wordSelect.split('');
@@ -76,9 +79,7 @@ function wordsFetched (response) {
       $('#gameResult').html('<h2>You are the winner!</h2>');
     } else {
       countDown();
-      if ($('#counter').html() === '0') {
-        $('#gameResult').html('<h2>You lost, please try again</h2>');
-      }
+      imageSelect();
     }
   });
   $('.btn').on('click', function() {
@@ -99,9 +100,7 @@ function wordsFetched (response) {
     } else {
       countDown();
       $('#usedLetter').append(letter + ', ');
-      if ($('#counter').html() === '0') {
-        $('#gameResult').html('<h2>You lost, please try again</h2>');
-      }
+      imageSelect();
     }
   })
 }
@@ -112,4 +111,14 @@ function randomInt(max) {
 
 function wordError (error) {
   console.log(error);
+}
+
+function imageSelect() {
+  cnt = parseInt($('#counter').html());
+  if ( cnt >= 0 ) {
+    $('#face').html('<img src='+ imageUrls[(cnt)] +'>');
+  } 
+  if ( cnt === 0 ) {
+    $('#gameResult').html('<h2>You lost, please try again</h2>');
+  }
 }
