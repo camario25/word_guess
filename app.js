@@ -60,7 +60,7 @@ function wordsFetched (response) {
   $('#counter').empty();
   $('#alphabet').empty();
   $('#face').html('<img src="images/head.png" alt="head">');
-  $('#entireWord').html('<p>You can guess the whole word here:  <input type="text" id="fullWord"><button id="submitFullWord">submit</button>')
+  $('#entireWord').html('<p>You can guess the whole word here:  <input type="text" id="fullWord" title="Only English Letters Allowed"><button id="submitFullWord" disabled>submit</button>')
   alphabet.forEach(function (el) {
     $('#alphabet').append('<button class="btn" value="' + el + '">' + el + '</button>')
   });
@@ -72,8 +72,13 @@ function wordsFetched (response) {
   var wordSplitArr = wordSelect.split('');
   console.log(wordSplitArr);
   appendLines(wordSplitArr.length);
+  
+  $('#fullWord').keyup(function () {
+    this.value = this.value.replace(/[^A-Za-z]/, '');
+    enableFullSubmitButton();
+  })
   $('#submitFullWord').on('click', function () {
-    var fullWordValue = $('#fullWord').val();
+    var fullWordValue = $('#fullWord').val().toLowerCase();
     if (fullWordValue === wordSelect){
       console.log(fullWordValue, wordSelect);
       $('#face').html('<img src="images/win.png">');
@@ -115,6 +120,14 @@ function wordsFetched (response) {
       }
     }
   })
+}
+
+function enableFullSubmitButton() {
+  if ($('#fullWord').val() !== '') {
+    $('#submitFullWord').prop('disabled', false);
+  } else if ($('#fullWord').val() === '') {
+    $('#submitFullWord').prop('disabled', true);
+  }
 }
 
 function randomInt(max) {
