@@ -17,7 +17,6 @@ var imageUrls = ["images/loss.png", "images/hair.png", "images/lashes.png", "ima
 
 $(document).ready(function() {
   levelDropdown();
-  $('#face').html('<img src="images/head.png" alt="head">');
 });
 
 function levelDropdown() {
@@ -60,6 +59,7 @@ function wordsFetched (response) {
   $('#guessWord').empty();
   $('#counter').empty();
   $('#alphabet').empty();
+  $('#face').html('<img src="images/head.png" alt="head">');
   $('#entireWord').html('<p>You can guess the whole word here:  <input type="text" id="fullWord"><button id="submitFullWord">submit</button>')
   alphabet.forEach(function (el) {
     $('#alphabet').append('<button class="btn" value="' + el + '">' + el + '</button>')
@@ -78,11 +78,13 @@ function wordsFetched (response) {
       console.log(fullWordValue, wordSelect);
       $('#face').html('<img src="images/win.png">');
       $('#gameResult').html('<h2>You are the winner!</h2>');
+      disableGuesses();
     } else {
       countDown();
       imageSelect();
       if ($('#counter').html() === '0') {
         $('#guessWord').html('Current Word:  ' + wordSelect);
+        disableGuesses();
       }
     }
   });
@@ -99,6 +101,7 @@ function wordsFetched (response) {
           if (checkWordArr.join('') === wordSelect) {
             $('#face').html('<img src="images/win.png">');
             $('#gameResult').html('<h2>You are the winner!</h2>');
+            disableGuesses();
           }
         } 
       })
@@ -108,6 +111,7 @@ function wordsFetched (response) {
       imageSelect();
       if ($('#counter').html() === '0') {
         $('#guessWord').html('Current Word:  ' + wordSelect);
+        disableGuesses();
       }
     }
   })
@@ -129,4 +133,9 @@ function imageSelect() {
   if ( cnt === 0 ) {
     $('#gameResult').html('<h2>You lost, please try again</h2>');
   }
+}
+
+function disableGuesses() {
+  $('.btn').prop('disabled', true);
+  $('#submitFullWord').prop('disabled', true);
 }
