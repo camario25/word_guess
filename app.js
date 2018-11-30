@@ -76,10 +76,14 @@ function wordsFetched (response) {
     var fullWordValue = $('#fullWord').val();
     if (fullWordValue === wordSelect){
       console.log(fullWordValue, wordSelect);
+      $('#face').html('<img src="images/win.png">');
       $('#gameResult').html('<h2>You are the winner!</h2>');
     } else {
       countDown();
       imageSelect();
+      if ($('#counter').html() === '0') {
+        $('#guessWord').html('Current Word:  ' + wordSelect);
+      }
     }
   });
   $('.btn').on('click', function() {
@@ -93,6 +97,7 @@ function wordsFetched (response) {
           console.log('yes', el, checkWordArr);
           $('#guessWord :nth-child(' + (i+1) + ')').replaceWith('<span>' + el + '</span>');
           if (checkWordArr.join('') === wordSelect) {
+            $('#face').html('<img src="images/win.png">');
             $('#gameResult').html('<h2>You are the winner!</h2>');
           }
         } 
@@ -101,6 +106,9 @@ function wordsFetched (response) {
       countDown();
       $('#usedLetter').append(letter + ', ');
       imageSelect();
+      if ($('#counter').html() === '0') {
+        $('#guessWord').html('Current Word:  ' + wordSelect);
+      }
     }
   })
 }
