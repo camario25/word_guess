@@ -56,6 +56,8 @@ $('form').on('submit', function(e) {
 
 function wordsFetched (response) {
   var checkWordArr = [];
+  var score = 0;
+  $('#level').prop('disabled', true);
   $('#guessWord').empty();
   $('#counter').empty();
   $('#alphabet').empty();
@@ -67,11 +69,13 @@ function wordsFetched (response) {
   $('#counterDiv').html('<p>Incorrect Guesses Remaining:  <span id="counter"></span></p>');
   $('#counter').append(6);
   $('#usedLettersDiv').html('<p>Incorrect Letters:  <span id="usedLetter"></span></p>');
+  $('#scoreButtons').html('<button id="saveScore">Save Your Score</button><button id="clearLeaders">Clear High Scores</button>');
   var wordsArr = response.split('\n');
   var wordSelect = wordsArr[randomInt(101)];
   var wordSplitArr = wordSelect.split('');
   console.log(wordSplitArr);
   appendLines(wordSplitArr.length);
+  setPlayer();
   
   $('#fullWord').keyup(function () {
     this.value = this.value.replace(/[^A-Za-z]/, '');
@@ -83,6 +87,10 @@ function wordsFetched (response) {
       console.log(fullWordValue, wordSelect);
       $('#face').html('<img src="images/win.png">');
       $('#gameResult').html('<h2>You are the winner!</h2>');
+      score += (parseInt($('#level').val()) * 2);
+      var totalScore = score + (parseInt(sessionStorage.getItem('playerScore')));
+      sessionStorage.setItem('playerScore', totalScore);
+      console.log(score, totalScore);
       disableGuesses();
     } else {
       countDown();
@@ -106,6 +114,11 @@ function wordsFetched (response) {
           if (checkWordArr.join('') === wordSelect) {
             $('#face').html('<img src="images/win.png">');
             $('#gameResult').html('<h2>You are the winner!</h2>');
+            score += (parseInt($('#level').val()) * 2);
+            // sessionScore += score;
+            var totalScore = score + parseInt(sessionStorage.getItem('playerScore'));
+            console.log(score, sessionScore, totalScore);
+            sessionStorage.setItem('playerScore', totalScore);
             disableGuesses();
           }
         } 
@@ -120,7 +133,19 @@ function wordsFetched (response) {
       }
     }
   })
+  $('#saveScore').on('click', function() {
+    player = sessionStorage.getItem('playerName');
+    score = sessionStorage.getItem('playerScore');
+    window.localStorage.setItem(player, score);
+  });
+  $('#clearLeaders').on('click', function() {
+    localStorage.clear();
+  });
 }
+
+
+
+
 
 function enableFullSubmitButton() {
   if ($('#fullWord').val() !== '') {
@@ -134,9 +159,23 @@ function randomInt(max) {
   return Math.floor(Math.random() * Math.floor(max));
 }
 
+function setPlayer() {
+  player = sessionStorage.getItem('playerName');
+  if ( player === $('#playerName').val()) {
+    return
+  } else {
+    sessionStorage.clear();
+    sessionStorage.setItem('playerName', $('#playerName').val());
+  
+  console.log(sessionStorage.getItem('playerName'));
+  }
+}
+
+
 function wordError (error) {
   console.log(error);
 }
+
 
 function imageSelect() {
   cnt = parseInt($('#counter').html());
@@ -151,4 +190,5 @@ function imageSelect() {
 function disableGuesses() {
   $('.btn').prop('disabled', true);
   $('#submitFullWord').prop('disabled', true);
+  $('#level').prop('disabled', false);
 }
