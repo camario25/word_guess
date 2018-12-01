@@ -17,6 +17,13 @@ var imageUrls = ["images/loss.png", "images/hair.png", "images/lashes.png", "ima
 
 $(document).ready(function() {
   levelDropdown();
+  $('#playerName').on('keyup', function() {
+    if ($('#playerName').val() !== '') {
+      $('#getLevel').prop('disabled', false);
+    } else if ($('#playerName').val() === '') {
+      $('#getLevel').prop('disabled', true);
+    }
+  })
 });
 
 function levelDropdown() {
@@ -115,9 +122,8 @@ function wordsFetched (response) {
             $('#face').html('<img src="images/win.png">');
             $('#gameResult').html('<h2>You are the winner!</h2>');
             score += (parseInt($('#level').val()) * 2);
-            // sessionScore += score;
-            var totalScore = score + parseInt(sessionStorage.getItem('playerScore'));
-            console.log(score, sessionScore, totalScore);
+            var totalScore = score + (parseInt(sessionStorage.getItem('playerScore')));
+            console.log(score, totalScore);
             sessionStorage.setItem('playerScore', totalScore);
             disableGuesses();
           }
@@ -166,8 +172,7 @@ function setPlayer() {
   } else {
     sessionStorage.clear();
     sessionStorage.setItem('playerName', $('#playerName').val());
-  
-  console.log(sessionStorage.getItem('playerName'));
+    sessionStorage.setItem('playerScore', '0');
   }
 }
 
