@@ -24,6 +24,7 @@ $(document).ready(function() {
       $('#getLevel').prop('disabled', true);
     }
   })
+  
 });
 
 function levelDropdown() {
@@ -68,6 +69,7 @@ function wordsFetched (response) {
   $('#guessWord').empty();
   $('#counter').empty();
   $('#alphabet').empty();
+  $('#gameResult').empty();
   $('#face').html('<img src="images/head.png" alt="head">');
   $('#entireWord').html('<p>You can guess the whole word here:  <input type="text" id="fullWord" title="Only English Letters Allowed"><button id="submitFullWord" disabled>submit</button>')
   alphabet.forEach(function (el) {
@@ -77,12 +79,17 @@ function wordsFetched (response) {
   $('#counter').append(6);
   $('#usedLettersDiv').html('<p>Incorrect Letters:  <span id="usedLetter"></span></p>');
   $('#scoreButtons').html('<button id="saveScore">Save Your Score</button><button id="clearLeaders">Clear High Scores</button>');
+
+  
   var wordsArr = response.split('\n');
   var wordSelect = wordsArr[randomInt(101)];
   var wordSplitArr = wordSelect.split('');
   console.log(wordSplitArr);
   appendLines(wordSplitArr.length);
   setPlayer();
+  var nameSession = sessionStorage.getItem('playerName');
+  var scoreSession = sessionStorage.getItem('playerScore');
+  $('#currentScore').html('Current Score for ' + nameSession + ' is ' + scoreSession);
   
   $('#fullWord').keyup(function () {
     this.value = this.value.replace(/[^A-Za-z]/, '');
@@ -98,6 +105,7 @@ function wordsFetched (response) {
       var totalScore = score + (parseInt(sessionStorage.getItem('playerScore')));
       sessionStorage.setItem('playerScore', totalScore);
       console.log(score, totalScore);
+      $('#currentScore').html('Current Score for ' + sessionStorage.getItem('playerName') + ' is ' + sessionStorage.getItem('playerScore'));
       disableGuesses();
     } else {
       countDown();
@@ -176,6 +184,23 @@ function setPlayer() {
   }
 }
 
+function leaderBoard() {
+  var tempArr = [];
+  var leadersNames = Object.keys(localStorage);
+  var leadersScores = Object.values(localStorage);
+  
+  console.log(leadersNames, leadersScores);
+  
+  for (var player in localStorage) {
+    if (parseInt(localStorage[player]) && player !== 'length') {
+      tempArr.push([player, parseInt(localStorage[player])]);
+    }
+  }
+  var sortedArr = tempArr.sort(function(a, b) {
+    return b[1] - a[1];
+  });  
+  console.log(sortedArr);
+}
 
 function wordError (error) {
   console.log(error);
