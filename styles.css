@@ -1,0 +1,55 @@
+html {
+  font-family: 'Titillium Web', arial, sans-serif;
+}
+
+
+
+table {
+  table-layout: fixed;
+  width: 25em;
+  border-collapse: collapse;
+  border: .2em solid #02547D;
+}
+
+thead th:nth-child(1) {
+  width: 50%;
+}
+
+thead th:nth-child(2) {
+  width: 50%;
+}
+
+th, td {
+  padding: 1.2em;
+}
+
+th {
+  letter-spacing: 2px;
+}
+
+td {
+  letter-spacing: 1px;
+}
+
+td {
+  text-align: center;
+}
+thead {
+  background-color: #02BEC4;
+  color: white;
+  text-shadow: 1px 1px 1px black;
+}
+
+thead th {
+  background: linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.5));
+  border: 3px solid #02547D;
+}
+
+tbody tr:nth-child(odd) {
+  background-color: #E1F7E7;
+}
+
+tbody tr:nth-child(even) {
+  background-color: #A9E8DC;
+}
+#02BEC4
