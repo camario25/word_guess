@@ -63,23 +63,8 @@ $('form').on('submit', function(e) {
 });
 
 function wordsFetched (response) {
+  gameStart();
   var checkWordArr = [];
-  $('#level').prop('disabled', true);
-  $('#guessWord').empty();
-  $('#counter').empty();
-  $('#alphabet').empty();
-  $('#gameResult').empty();
-  $('#face').html('<img src="images/head.png" alt="head">');
-  $('#entireWord').html('<p>You can guess the whole word here:  <input type="text" id="fullWord" title="Only English Letters Allowed"><button id="submitFullWord" disabled>submit</button>')
-  alphabet.forEach(function (el) {
-    $('#alphabet').append('<button class="btn" value="' + el + '">' + el + '</button>')
-  });
-  $('#counterDiv').html('<p>Incorrect Guesses Remaining:  <span id="counter"></span></p>');
-  $('#counter').append(6);
-  $('#usedLettersDiv').html('<p>Incorrect Letters:  <span id="usedLetter"></span></p>');
-  $('#scoreButtons').html('<button id="saveScore">Save Your High Score</button><button id="clearLeaders">Clear High Scores</button>');
-
-  
   var wordsArr = response.split('\n');
   var wordSelect = wordsArr[randomInt(101)];
   var wordSplitArr = wordSelect.split('');
@@ -110,13 +95,11 @@ function wordsFetched (response) {
   });
   $('.btn').on('click', function() {
     var letter = $(this).val().toLowerCase();
-    console.log(letter);
     $(this).prop('disabled', true);
     if (wordSplitArr.includes(letter)) {
       wordSplitArr.forEach(function (el, i) {
         if (el === letter) {
           checkWordArr[i] = letter;
-          console.log('yes', el, checkWordArr);
           $('#guessWord :nth-child(' + (i+1) + ')').replaceWith('<span>' + el + '</span>');
           if (checkWordArr.join('') === wordSelect) {
             win();
@@ -138,9 +121,8 @@ function wordsFetched (response) {
     var player = sessionStorage.getItem('playerName');
     var sessionScore = sessionStorage.getItem('playerScore');
     var localScore = window.localStorage.getItem(player);
-    console.log(player, sessionScore, localScore);
     if (parseInt(sessionScore) > parseInt(localScore) || localScore === null) {
-    window.localStorage.setItem(player, score);
+    window.localStorage.setItem(player, sessionScore);
   } else {
     $('#alert').html('<h2>You already have a higher score saved.</h2>');
   }
@@ -155,6 +137,23 @@ function wordsFetched (response) {
 
 function wordError (error) {
   $('#alert').html(error);
+}
+
+function gameStart() {
+  $('#level').prop('disabled', true);
+  $('#guessWord').empty();
+  $('#counter').empty();
+  $('#alphabet').empty();
+  $('#gameResult').empty();
+  $('#face').html('<img src="images/head.png" alt="head">');
+  $('#entireWord').html('<p>You can guess the whole word here:  <input type="text" id="fullWord" title="Only English Letters Allowed"><button id="submitFullWord" disabled>submit</button>')
+  alphabet.forEach(function (el) {
+    $('#alphabet').append('<button class="btn" value="' + el + '">' + el + '</button>')
+  });
+  $('#counterDiv').html('<p>Incorrect Guesses Remaining:  <span id="counter"></span></p>');
+  $('#counter').append(6);
+  $('#usedLettersDiv').html('<p>Incorrect Letters:  <span id="usedLetter"></span></p>');
+  $('#scoreButtons').html('<button id="saveScore">Save Your High Score</button><button id="clearLeaders">Clear High Scores</button>');
 }
 
 function enableFullSubmitButton() {
@@ -185,7 +184,6 @@ function win() {
   score += (parseInt($('#level').val()) * 2);
   var totalScore = score + (parseInt(sessionStorage.getItem('playerScore')));
   sessionStorage.setItem('playerScore', totalScore);
-  console.log(score, totalScore);
   $('#face').html('<img src="images/win.png">');
   $('#gameResult').html('<h2>You are the winner!</h2>');
   $('#currentScore').html('Current Score for ' + sessionStorage.getItem('playerName') + ' is ' + sessionStorage.getItem('playerScore'));
@@ -195,9 +193,6 @@ function leaderBoard() {
   var tempArr = [];
   var leadersNames = Object.keys(localStorage);
   var leadersScores = Object.values(localStorage);
-  
-  console.log(leadersNames, leadersScores);
-  
   for (var player in localStorage) {
     if (parseInt(localStorage[player]) && player !== 'length') {
       tempArr.push([player, parseInt(localStorage[player])]);
@@ -206,7 +201,6 @@ function leaderBoard() {
   var sortedArr = tempArr.sort(function(a, b) {
     return b[1] - a[1];
   });  
-  console.log(sortedArr);
     $('#leaderBoard').html('<table><tr><th>Player</th><th>High Score</th></tr></table>')
   sortedArr.forEach(function (el) {
     $('table').append('<tr><td>' + el[0] + '</td><td>' + el[1] + '</td></tr>')
@@ -227,6 +221,7 @@ function imageSelect() {
 
 function disableGuesses() {
   $('.btn').prop('disabled', true);
+  $('#fullWord').prop('disabled', true);
   $('#submitFullWord').prop('disabled', true);
   $('#level').prop('disabled', false);
 }
