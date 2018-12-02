@@ -24,7 +24,7 @@ $(document).ready(function() {
       $('#getLevel').prop('disabled', true);
     }
   })
-  
+  leaderBoard();
 });
 
 function levelDropdown() {
@@ -78,7 +78,7 @@ function wordsFetched (response) {
   $('#counterDiv').html('<p>Incorrect Guesses Remaining:  <span id="counter"></span></p>');
   $('#counter').append(6);
   $('#usedLettersDiv').html('<p>Incorrect Letters:  <span id="usedLetter"></span></p>');
-  $('#scoreButtons').html('<button id="saveScore">Save Your Score</button><button id="clearLeaders">Clear High Scores</button>');
+  $('#scoreButtons').html('<button id="saveScore">Save Your High Score</button><button id="clearLeaders">Clear High Scores</button>');
 
   
   var wordsArr = response.split('\n');
@@ -150,8 +150,14 @@ function wordsFetched (response) {
   $('#saveScore').on('click', function() {
     player = sessionStorage.getItem('playerName');
     score = sessionStorage.getItem('playerScore');
+    if (parseInt(score) > parseInt(window.localStorage.getItem(player))) {
     window.localStorage.setItem(player, score);
+  } else {
+    $('#alert').html('<h2>You already have a higher score saved.</h2>');
+  }
+  leaderBoard();
   });
+  
   $('#clearLeaders').on('click', function() {
     localStorage.clear();
   });
@@ -200,6 +206,11 @@ function leaderBoard() {
     return b[1] - a[1];
   });  
   console.log(sortedArr);
+    $('#leaderBoard').html('<table><tr><th>Player</th><th>High Score</th></tr></table>')
+  sortedArr.forEach(function (el) {
+    $('table').append('<tr><td>' + el[0] + '</td><td>' + el[1] + '</td></tr>')
+  })
+  
 }
 
 function wordError (error) {
