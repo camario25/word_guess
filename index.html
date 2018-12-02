@@ -9,30 +9,36 @@
   <title>Word Guess Game</title>
 </head>
 <body>
-  <h1>Welcome to Word Guess Game</h1>
-  <h3>Please enter you name and select dificulty level from 1-10</h3>
-  
-  <form>
-    <input type="text" id="playerName" placeholder="Name">
-    <select id='level'></select>
-    <input type='submit' value='Select Level & Start' id='getLevel' disabled>
-  </form>
-  <div>
-    <div id='alphabet'></div>
-    <div id='guessWord'></div>
-    <div id='entireWord'></div>
-    <div id='counterDiv'></div>
-    <div id='usedLettersDiv'></div>
+
+  <div id='wholeGameBox'>
+    <div>
+      <h1>Welcome to Word Guess Game</h1>
+      <h3>Enter your name and select dificulty level from 1-10</h3>
+      
+      <form>
+        <input type="text" id="playerName" placeholder="Name">
+        <select id='level'></select>
+        <input type='submit' value='Select Level & Start' id='getLevel' disabled>
+      </form>
+      <div>
+          <div id='alphabet'></div>
+          <div id='gameResult'></div>
+          <div id='guessWord'></div>
+          <div id='entireWord'></div>
+          <div id='counterDiv'></div>
+          <div id='usedLettersDiv'></div>
+        </div>
+        <div>
+          <div id='alert'></div>
+          <div id='currentScore'></div>
+          <div id='leaderBoard'></div>
+          <div id='scoreButtons'></div>
+        </div>
+    </div>
+    <div>
+      <div id='face'></div>
+    </div>
   </div>
-  <div>
-    <div id='alert'></div>
-    <div id='leaderBoard'></div>
-    <div id='currentScore'></div>
-    <div id='gameResult'></div>
-    <div id='scoreButtons'></div>
-    <div id='face'></div>
-  </div>
-  
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
   <script src="app.js"></script>
   

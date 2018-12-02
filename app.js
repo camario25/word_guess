@@ -73,7 +73,7 @@ function wordsFetched (response) {
   setPlayer();
   var nameSession = sessionStorage.getItem('playerName');
   var scoreSession = sessionStorage.getItem('playerScore');
-  $('#currentScore').html('Current Score for ' + nameSession + ' is ' + scoreSession);
+  $('#currentScore').html('Current Score for ' + nameSession + ' is: ' + scoreSession);
   
   $('#fullWord').keyup(function () {
     this.value = this.value.replace(/[^A-Za-z]/, '');
@@ -83,6 +83,7 @@ function wordsFetched (response) {
     var fullWordValue = $('#fullWord').val().toLowerCase();
     if (fullWordValue === wordSelect){
       win();
+      $('#guessWord').html('Current Word:  ' + wordSelect);
       disableGuesses();
     } else {
       countDown();
@@ -97,6 +98,9 @@ function wordsFetched (response) {
     var letter = $(this).val().toLowerCase();
     $(this).prop('disabled', true);
     if (wordSplitArr.includes(letter)) {
+      $(this).css('background-color', '#09DBA7');
+      $(this).css('font-size', '1em');
+      $(this).removeClass('btn');
       wordSplitArr.forEach(function (el, i) {
         if (el === letter) {
           checkWordArr[i] = letter;
@@ -109,6 +113,9 @@ function wordsFetched (response) {
       })
     } else {
       countDown();
+      $(this).css('background-color', '#F7301B');
+      $(this).css('font-size', '1em');
+      $(this).removeClass('btn');
       $('#usedLetter').append(letter + ', ');
       imageSelect();
       if ($('#counter').html() === '0') {
