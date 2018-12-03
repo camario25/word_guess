@@ -8,16 +8,21 @@ body {
 }
 
 h1 {
+  margin-top: 0;
   font-weight: bolder;
   font-size: 2.75em;
 }
 
 h3 {
-  font-size: 1.25em;
+  font-size: 1.4em;
 }
 
 #wholeGameBox {
   display: flex;
+}
+
+form {
+  margin-bottom: 1em;
 }
 
 input {
@@ -53,21 +58,19 @@ button, #getLevel {
   border: solid 1px #02547D;
   border-radius: 3px;
   color: #02547D;
-  font-size: .75em;
+  font-size: .9em;
   letter-spacing: 1px;
 }
 
-.btn:hover {
+button:hover {
   font-weight: bolder;
   border: solid 2px #02547D;
-  /* background-color: #02BEC4; */
   height: 2em;
 }
 
 #getLevel:hover {
   font-weight: bolder;
   border: solid 2px #02547D;
-  /* background-color: #02BEC4; */
   height: 2em;
 }
 
@@ -75,16 +78,19 @@ caption {
   font-size: 1.5em;
 }
 table {
+  margin-top: 1em;
+  margin-bottom: 1em;
   table-layout: fixed;
   width: 25em;
   border-collapse: collapse;
   border: .2em solid #02547D;
-  border-radius: 3px;
+  border-radius: 10px;
 }
 
 caption {
   letter-spacing: 1px;
   font-weight: bolder;
+  margin-bottom: .5em;
 }
 thead th:nth-child(1) {
   width: 50%;
@@ -139,4 +145,27 @@ img {
 
 #guessWord {
   font-size: 1.5em;
+  margin-top: .75em;
+}
+
+#entireWord p{
+  margin-bottom: .25em;
+  font-size: 1.2em;
+}
+
+#counterDiv p, #usedLettersDiv p {
+  margin-top: .2em;
+  margin-bottom: .2em;
+  font-size: 1.2em;
+}
+
+#currentScore {
+  font-size: 1.2em;
+}
+#submitFullWord, #saveScore, #clearLeaders {
+  font-size: 1em;
+}
+
+#clearLeaders {
+  margin-left: 2.4em;
 }

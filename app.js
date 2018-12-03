@@ -99,8 +99,9 @@ function wordsFetched (response) {
     $(this).prop('disabled', true);
     if (wordSplitArr.includes(letter)) {
       $(this).css('background-color', '#09DBA7');
-      $(this).css('font-size', '1em');
-      $(this).removeClass('btn');
+      $(this).css('height', '2em');
+      $(this).css('font-weight', 'bolder');
+      $(this).css('border', 'solid 2px #02547D')
       wordSplitArr.forEach(function (el, i) {
         if (el === letter) {
           checkWordArr[i] = letter;
@@ -114,8 +115,9 @@ function wordsFetched (response) {
     } else {
       countDown();
       $(this).css('background-color', '#F7301B');
-      $(this).css('font-size', '1em');
-      $(this).removeClass('btn');
+      $(this).css('height', '2em');
+      $(this).css('font-weight', 'bolder');
+      $(this).css('border', 'solid 2px #02547D')
       $('#usedLetter').append(letter + ', ');
       imageSelect();
       if ($('#counter').html() === '0') {
