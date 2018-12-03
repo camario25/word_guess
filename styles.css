@@ -165,7 +165,3 @@ img {
 #submitFullWord, #saveScore, #clearLeaders {
   font-size: 1em;
 }
-
-#clearLeaders {
-  margin-left: 2.4em;
-}

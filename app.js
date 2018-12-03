@@ -26,25 +26,6 @@ $(document).ready(function() {
   })
   leaderBoard();
 });
-
-function levelDropdown() {
-  for (var level in levels) {
-    $('#level').append('<option value="' + level + '">' + levels[level] + '</option>');
-  }
-}
-
-function countDown() {
-  var counter = $('#counter').html();
-  $('#counter').html(--counter);
-}
-
-function appendLines(length) {
-  $('#guessWord').append('Current Word:  ')
-  while (length > 0) {
-  $('#guessWord').append('<span> _  </span>');
-  length--;
-    }
-}
   
 $('form').on('submit', function(e) {
   e.preventDefault();
@@ -55,7 +36,7 @@ $('form').on('submit', function(e) {
     url: wordApi,
     data: {
       difficulty: level,
-      count: 100
+      count: 200
     },
     success: wordsFetched,
     error: wordError
@@ -68,7 +49,6 @@ function wordsFetched (response) {
   var wordsArr = response.split('\n');
   var wordSelect = wordsArr[randomInt(101)];
   var wordSplitArr = wordSelect.split('');
-  console.log(wordSplitArr);
   appendLines(wordSplitArr.length);
   setPlayer();
   var nameSession = sessionStorage.getItem('playerName');
@@ -125,19 +105,7 @@ function wordsFetched (response) {
         disableGuesses();
       }
     }
-  })
-  $('#saveScore').on('click', function() {
-    var player = sessionStorage.getItem('playerName');
-    var sessionScore = sessionStorage.getItem('playerScore');
-    var localScore = window.localStorage.getItem(player);
-    if (parseInt(sessionScore) > parseInt(localScore) || localScore === null) {
-    window.localStorage.setItem(player, sessionScore);
-  } else {
-    $('#alert').html('<h2>You already have a higher score saved.</h2>');
-  }
-  leaderBoard();
-  });
-  
+  })  
   $('#clearLeaders').on('click', function() {
     localStorage.clear();
     leaderBoard();
@@ -146,6 +114,12 @@ function wordsFetched (response) {
 
 function wordError (error) {
   $('#alert').html(error);
+}
+
+function levelDropdown() {
+  for (var level in levels) {
+    $('#level').append('<option value="' + level + '">' + levels[level] + '</option>');
+  }
 }
 
 function gameStart() {
@@ -162,7 +136,7 @@ function gameStart() {
   $('#counterDiv').html('<p>Incorrect Guesses Remaining:  <span id="counter"></span></p>');
   $('#counter').append(6);
   $('#usedLettersDiv').html('<p>Incorrect Letters:  <span id="usedLetter"></span></p>');
-  $('#scoreButtons').html('<button id="saveScore">Save Your High Score</button><button id="clearLeaders">Clear High Scores</button>');
+  $('#scoreButtons').html('<button id="clearLeaders">Clear High Scores</button>');
 }
 
 function enableFullSubmitButton() {
@@ -175,6 +149,14 @@ function enableFullSubmitButton() {
 
 function randomInt(max) {
   return Math.floor(Math.random() * Math.floor(max));
+}
+
+function appendLines(length) {
+  $('#guessWord').append('Current Word:  ')
+  while (length > 0) {
+  $('#guessWord').append('<span> _  </span>');
+  length--;
+    }
 }
 
 function setPlayer() {
@@ -195,7 +177,14 @@ function win() {
   sessionStorage.setItem('playerScore', totalScore);
   $('#face').html('<img src="images/win.png">');
   $('#gameResult').html('<h2>You are the winner!</h2>');
-  $('#currentScore').html('Current Score for ' + sessionStorage.getItem('playerName') + ' is ' + sessionStorage.getItem('playerScore'));
+  var player = sessionStorage.getItem('playerName');
+  var sessionScore = sessionStorage.getItem('playerScore');
+  var localScore = localStorage.getItem(player);
+  $('#currentScore').html('Current Score for ' + player + ' is ' + sessionScore);
+  if (parseInt(sessionScore) > parseInt(localScore) || localScore === null) {
+  localStorage.setItem(player, sessionScore);
+  }
+  leaderBoard();
 }
 
 function leaderBoard() {
@@ -214,7 +203,6 @@ function leaderBoard() {
   sortedArr.forEach(function (el) {
     $('tbody').append('<tr><td>' + el[0] + '</td><td>' + el[1] + '</td></tr>')
   })
-  
 }
 
 
@@ -227,6 +215,12 @@ function imageSelect() {
     $('#gameResult').html('<h2>You lost, please try again</h2>');
   }
 }
+
+function countDown() {
+  var counter = $('#counter').html();
+  $('#counter').html(--counter);
+}
+
 
 function disableGuesses() {
   $('.btn').prop('disabled', true);
