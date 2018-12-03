@@ -164,6 +164,7 @@ function appendLines(length) {
     }
 }
 
+//sessionScore resets to 0 when a player enters a new name and starts play.  Does not affect localStorage or leaderBoard until game finishes.
 function setPlayer() {
   player = sessionStorage.getItem('playerName');
   if ( player === $('#playerName').val()) {
