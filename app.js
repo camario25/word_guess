@@ -17,7 +17,7 @@ var imageUrls = ["images/loss.png", "images/hair.png", "images/lashes.png", "ima
 
 $(document).ready(function() {
   levelDropdown();
-  $('#playerName').on('keyup', function() {
+  $('#playerName').on('keyup', function() { //must have name to play
     if ($('#playerName').val() !== '') {
       $('#getLevel').prop('disabled', false);
     } else if ($('#playerName').val() === '') {
@@ -44,40 +44,38 @@ $('form').on('submit', function(e) {
 });
 
 function wordsFetched (response) {
-  gameStart();
+  gameStart(); //loads up html divs for playing
   var checkWordArr = [];
   var wordsArr = response.split('\n');
   var wordSelect = wordsArr[randomInt(101)];
   var wordSplitArr = wordSelect.split('');
-  appendLines(wordSplitArr.length);
-  setPlayer();
+  appendLines(wordSplitArr.length);  //makes the blank undelines the length of the word
+  setPlayer(); //saves player to sessionStorage object
   var nameSession = sessionStorage.getItem('playerName');
   var scoreSession = sessionStorage.getItem('playerScore');
   $('#currentScore').html('Current Score for ' + nameSession + ' is: ' + scoreSession);
-  
-  $('#fullWord').keyup(function () {
+  //validation that only letters are used as inputs
+  $('#fullWord').keyup(function () { 
     this.value = this.value.replace(/[^A-Za-z]/, '');
     enableFullSubmitButton();
   })
   $('#submitFullWord').on('click', function () {
     var fullWordValue = $('#fullWord').val().toLowerCase();
     if (fullWordValue === wordSelect){
-      win();
-<<<<<<< HEAD
-=======
+      win(); //includes completed happy image
       $('#guessWord').html('Current Word:  ' + wordSelect);
->>>>>>> cosmetics
       disableGuesses();
     } else {
       countDown();
-      imageSelect();
+      imageSelect(); //image responds to counter
       if ($('#counter').html() === '0') {
         $('#guessWord').html('Current Word:  ' + wordSelect);
         disableGuesses();
       }
     }
   });
-  $('.btn').on('click', function() {
+  //when clicking alphabet buttons
+  $('.btn').on('click', function() { 
     var letter = $(this).val().toLowerCase();
     $(this).prop('disabled', true);
     if (wordSplitArr.includes(letter)) {
@@ -85,7 +83,8 @@ function wordsFetched (response) {
       $(this).css('height', '2em');
       $(this).css('font-weight', 'bolder');
       $(this).css('border', 'solid 2px #02547D')
-      wordSplitArr.forEach(function (el, i) {
+      //function to replace _ with letter selected
+      wordSplitArr.forEach(function (el, i) { 
         if (el === letter) {
           checkWordArr[i] = letter;
           $('#guessWord :nth-child(' + (i+1) + ')').replaceWith('<span>' + el + '</span>');
@@ -101,30 +100,15 @@ function wordsFetched (response) {
       $(this).css('height', '2em');
       $(this).css('font-weight', 'bolder');
       $(this).css('border', 'solid 2px #02547D')
-      $('#usedLetter').append(letter + ', ');
+      // add letters to wrong letter section
+      $('#usedLetter').append(letter + ', '); 
       imageSelect();
       if ($('#counter').html() === '0') {
         $('#guessWord').html('Current Word:  ' + wordSelect);
         disableGuesses();
       }
     }
-<<<<<<< HEAD
-  })
-  $('#saveScore').on('click', function() {
-    var player = sessionStorage.getItem('playerName');
-    var sessionScore = sessionStorage.getItem('playerScore');
-    var localScore = window.localStorage.getItem(player);
-    if (parseInt(sessionScore) > parseInt(localScore) || localScore === null) {
-    window.localStorage.setItem(player, sessionScore);
-  } else {
-    $('#alert').html('<h2>You already have a higher score saved.</h2>');
-  }
-  leaderBoard();
-  });
-  
-=======
   })  
->>>>>>> cosmetics
   $('#clearLeaders').on('click', function() {
     localStorage.clear();
     leaderBoard();
@@ -135,15 +119,12 @@ function wordError (error) {
   $('#alert').html(error);
 }
 
-<<<<<<< HEAD
-=======
 function levelDropdown() {
   for (var level in levels) {
     $('#level').append('<option value="' + level + '">' + levels[level] + '</option>');
   }
 }
 
->>>>>>> cosmetics
 function gameStart() {
   $('#level').prop('disabled', true);
   $('#guessWord').empty();
@@ -152,17 +133,14 @@ function gameStart() {
   $('#gameResult').empty();
   $('#face').html('<img src="images/head.png" alt="head">');
   $('#entireWord').html('<p>You can guess the whole word here:  <input type="text" id="fullWord" title="Only English Letters Allowed"><button id="submitFullWord" disabled>submit</button>')
-  alphabet.forEach(function (el) {
+  //makes each letter a button
+  alphabet.forEach(function (el) { 
     $('#alphabet').append('<button class="btn" value="' + el + '">' + el + '</button>')
   });
   $('#counterDiv').html('<p>Incorrect Guesses Remaining:  <span id="counter"></span></p>');
   $('#counter').append(6);
   $('#usedLettersDiv').html('<p>Incorrect Letters:  <span id="usedLetter"></span></p>');
-<<<<<<< HEAD
-  $('#scoreButtons').html('<button id="saveScore">Save Your High Score</button><button id="clearLeaders">Clear High Scores</button>');
-=======
   $('#scoreButtons').html('<button id="clearLeaders">Clear High Scores</button>');
->>>>>>> cosmetics
 }
 
 function enableFullSubmitButton() {
@@ -173,7 +151,8 @@ function enableFullSubmitButton() {
   }
 }
 
-function randomInt(max) {
+//to select a random word from the dictionary response
+function randomInt(max) { 
   return Math.floor(Math.random() * Math.floor(max));
 }
 
@@ -198,26 +177,24 @@ function setPlayer() {
 
 function win() {
   var score = 0
-  score += (parseInt($('#level').val()) * 2);
+  score += (parseInt($('#level').val()) * 2); //score is determined by multiplying dificulty level by two
   var totalScore = score + (parseInt(sessionStorage.getItem('playerScore')));
   sessionStorage.setItem('playerScore', totalScore);
   $('#face').html('<img src="images/win.png">');
   $('#gameResult').html('<h2>You are the winner!</h2>');
-<<<<<<< HEAD
-  $('#currentScore').html('Current Score for ' + sessionStorage.getItem('playerName') + ' is ' + sessionStorage.getItem('playerScore'));
-=======
   var player = sessionStorage.getItem('playerName');
   var sessionScore = sessionStorage.getItem('playerScore');
   var localScore = localStorage.getItem(player);
   $('#currentScore').html('Current Score for ' + player + ' is ' + sessionScore);
+  //allows for automatic update of high score if session score is higher
   if (parseInt(sessionScore) > parseInt(localScore) || localScore === null) {
   localStorage.setItem(player, sessionScore);
   }
   leaderBoard();
->>>>>>> cosmetics
 }
 
-function leaderBoard() {
+//creates leaderboard from information saved in localStorage
+function leaderBoard() { 
   var tempArr = [];
   var leadersNames = Object.keys(localStorage);
   var leadersScores = Object.values(localStorage);
@@ -229,18 +206,10 @@ function leaderBoard() {
   var sortedArr = tempArr.sort(function(a, b) {
     return b[1] - a[1];
   });  
-<<<<<<< HEAD
-    $('#leaderBoard').html('<table><tr><th>Player</th><th>High Score</th></tr></table>')
-=======
     $('#leaderBoard').html('<table><caption>Player High Scores</caption><thead><tr><th>Name</th><th>Points</th></tr></thead><tbody></tbody></table>')
->>>>>>> cosmetics
   sortedArr.forEach(function (el) {
     $('tbody').append('<tr><td>' + el[0] + '</td><td>' + el[1] + '</td></tr>')
   })
-<<<<<<< HEAD
-  
-=======
->>>>>>> cosmetics
 }
 
 
