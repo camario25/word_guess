@@ -1,0 +1,167 @@
+html {
+  font-family: 'Titillium Web', arial, sans-serif;
+}
+
+body {
+  color: #02547D;
+  letter-spacing: 1px;
+}
+
+h1 {
+  margin-top: 0;
+  font-weight: bolder;
+  font-size: 2.75em;
+}
+
+h3 {
+  font-size: 1.4em;
+}
+
+#wholeGameBox {
+  display: flex;
+}
+
+form {
+  margin-bottom: 1em;
+}
+
+input {
+  font-family: 'Titillium Web', arial, sans-serif;
+  color: #02547D;
+  font-size: 1em;
+  border: solid 1px #02547D;
+  border-radius: 3px;
+  letter-spacing: 1px;
+  outline-color: #02BEC4;
+}
+
+::placeholder {
+  font-family: 'Titillium Web', arial, sans-serif;
+  color: #02547D;
+  font-size: 1em;
+}
+
+select {
+  font-family: 'Titillium Web', arial, sans-serif;
+  color: #02547D;
+  font-size: 1em;
+  border: solid 1px #02547D;
+  border-radius: 3px;
+}
+
+#getLevel:focus {
+  outline: none;
+}
+
+button, #getLevel {
+  background-color: #E1F7E7;
+  border: solid 1px #02547D;
+  border-radius: 3px;
+  color: #02547D;
+  font-size: .9em;
+  letter-spacing: 1px;
+}
+
+button:hover {
+  font-weight: bolder;
+  border: solid 2px #02547D;
+  height: 2em;
+}
+
+#getLevel:hover {
+  font-weight: bolder;
+  border: solid 2px #02547D;
+  height: 2em;
+}
+
+caption {
+  font-size: 1.5em;
+}
+table {
+  margin-top: 1em;
+  margin-bottom: 1em;
+  table-layout: fixed;
+  width: 25em;
+  border-collapse: collapse;
+  border: .2em solid #02547D;
+  border-radius: 10px;
+}
+
+caption {
+  letter-spacing: 1px;
+  font-weight: bolder;
+  margin-bottom: .5em;
+}
+thead th:nth-child(1) {
+  width: 50%;
+}
+
+thead th:nth-child(2) {
+  width: 50%;
+}
+
+th, td {
+  padding: 1.2em;
+}
+
+th {
+  letter-spacing: 2px;
+}
+
+td {
+  letter-spacing: 1px;
+}
+
+td {
+  text-align: center;
+}
+thead {
+  background-color: #02BEC4;
+  color: white;
+  text-shadow: 1px 1px 1px black;
+}
+
+thead th {
+  background: linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.5));
+  border: 3px solid #02547D;
+}
+
+tbody tr:nth-child(odd) {
+  background-color: #E1F7E7;
+}
+
+tbody tr:nth-child(even) {
+  background-color: #A9E8DC;
+}
+
+img {
+  width: 100%;
+  height: auto;
+}
+
+#gameResult {
+  text-align: center;
+}
+
+#guessWord {
+  font-size: 1.5em;
+  margin-top: .75em;
+}
+
+#entireWord p{
+  margin-bottom: .25em;
+  font-size: 1.2em;
+}
+
+#counterDiv p, #usedLettersDiv p {
+  margin-top: .2em;
+  margin-bottom: .2em;
+  font-size: 1.2em;
+}
+
+#currentScore {
+  font-size: 1.2em;
+}
+#submitFullWord, #saveScore, #clearLeaders {
+  font-size: 1em;
+}
