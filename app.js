@@ -24,6 +24,11 @@ $(document).ready(function() {
       $('#getLevel').prop('disabled', true);
     }
   })
+  //validation that only letters are used as inputs
+  $('#fullWord').on('keyup', function () { 
+    this.value = this.value.replace(/[^A-Za-z]/, '');
+    enableFullSubmitButton();
+  })
   leaderBoard();
 });
   
@@ -47,18 +52,15 @@ function wordsFetched (response) {
   gameStart(); //loads up html divs for playing
   var checkWordArr = [];
   var wordsArr = response.split('\n');
-  var wordSelect = wordsArr[randomInt(101)];
+  var wordSelect = wordsArr[randomInt(201)];
   var wordSplitArr = wordSelect.split('');
   appendLines(wordSplitArr.length);  //makes the blank undelines the length of the word
   setPlayer(); //saves player to sessionStorage object
   var nameSession = sessionStorage.getItem('playerName');
   var scoreSession = sessionStorage.getItem('playerScore');
   $('#currentScore').html('Current Score for ' + nameSession + ' is: ' + scoreSession);
-  //validation that only letters are used as inputs
-  $('#fullWord').keyup(function () { 
-    this.value = this.value.replace(/[^A-Za-z]/, '');
-    enableFullSubmitButton();
-  })
+
+
   $('#submitFullWord').on('click', function () {
     var fullWordValue = $('#fullWord').val().toLowerCase();
     if (fullWordValue === wordSelect){
@@ -79,10 +81,11 @@ function wordsFetched (response) {
     var letter = $(this).val().toLowerCase();
     $(this).prop('disabled', true);
     if (wordSplitArr.includes(letter)) {
-      $(this).css('background-color', '#09DBA7');
-      $(this).css('height', '2em');
-      $(this).css('font-weight', 'bolder');
-      $(this).css('border', 'solid 2px #02547D')
+      // $(this).css('background-color', '#09DBA7');
+      holdButtonCss($(this), '#09DBA7');
+      // $(this).css('height', '2em');
+      // $(this).css('font-weight', 'bolder');
+      // $(this).css('border', 'solid 2px #02547D')
       //function to replace _ with letter selected
       wordSplitArr.forEach(function (el, i) { 
         if (el === letter) {
@@ -96,10 +99,11 @@ function wordsFetched (response) {
       })
     } else {
       countDown();
-      $(this).css('background-color', '#F7301B');
-      $(this).css('height', '2em');
-      $(this).css('font-weight', 'bolder');
-      $(this).css('border', 'solid 2px #02547D')
+      // $(this).css('background-color', '#F7301B');
+      holdButtonCss($(this), '#F7301B');
+      // $(this).css('height', '2em');
+      // $(this).css('font-weight', 'bolder');
+      // $(this).css('border', 'solid 2px #02547D')
       // add letters to wrong letter section
       $('#usedLetter').append(letter + ', '); 
       imageSelect();
@@ -115,6 +119,13 @@ function wordsFetched (response) {
   });
 }
 
+function holdButtonCss(selector, color) {
+  selector.css('background-color', color);
+  selector.css('height', '2em');
+  selector.css('font-weight', 'bolder');
+  selector.css('border', 'solid 2px #02547D')
+  
+}
 function wordError (error) {
   $('#alert').html(error);
 }
@@ -236,3 +247,5 @@ function disableGuesses() {
   $('#submitFullWord').prop('disabled', true);
   $('#level').prop('disabled', false);
 }
+
+// Object.entries(window.localStorage).map(el => ({player: el[0], score: el[1]})).sort((a, b) => b.score - a.score);
